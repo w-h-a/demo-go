@@ -6,12 +6,26 @@ type Option func(*Options)
 
 type Options struct {
 	Address string
+	Name    string
+	Version string
 	Context context.Context
 }
 
 func WithAddress(addr string) Option {
 	return func(o *Options) {
 		o.Address = addr
+	}
+}
+
+func WithName(name string) Option {
+	return func(o *Options) {
+		o.Name = name
+	}
+}
+
+func WithVersion(version string) Option {
+	return func(o *Options) {
+		o.Version = version
 	}
 }
 
