@@ -7,7 +7,6 @@ import (
 	"github.com/w-h-a/demo-go/api/user"
 	httphandler "github.com/w-h-a/demo-go/internal/handler/http"
 	"github.com/w-h-a/demo-go/internal/middleware"
-	httpserver "github.com/w-h-a/demo-go/internal/server/http"
 )
 
 type authMiddleware struct {
@@ -29,7 +28,7 @@ func (m *authMiddleware) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 // TODO: pass in dependencies (auth service)
-func New() httpserver.Middleware {
+func New() func(h http.Handler) http.Handler {
 	return func(handler http.Handler) http.Handler {
 		return &authMiddleware{
 			handler: handler,
