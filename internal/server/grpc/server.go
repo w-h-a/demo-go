@@ -22,8 +22,8 @@ type grpcServer struct {
 }
 
 func (s *grpcServer) Handle(handler any) error {
-	s.mtx.RLock()
-	defer s.mtx.RUnlock()
+	s.mtx.Lock()
+	defer s.mtx.Unlock()
 
 	if s.isRunning {
 		return errors.New("cannot set handler after server has started")
