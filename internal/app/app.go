@@ -26,6 +26,20 @@ func InitNotifier() (notifier.Notifier, error) {
 	return memorynotifier.NewNotifier(), nil
 }
 
+func InitUserService(datalocation string) (*user.Service, error) {
+	ur, err := InitUserRepo(datalocation)
+	if err != nil {
+		return nil, err
+	}
+
+	n, err := InitNotifier()
+	if err != nil {
+		return nil, err
+	}
+
+	return user.New(ur, n), nil
+}
+
 func InitHttpServer(httpAddr string, userService *user.Service) (server.Server, error) {
 	srv := httpserver.NewServer(
 		server.WithAddress(httpAddr),
