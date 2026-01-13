@@ -8,7 +8,6 @@ import (
 
 	"github.com/alecthomas/kong"
 	"github.com/w-h-a/demo-go/internal/app"
-	"github.com/w-h-a/demo-go/internal/service/user"
 )
 
 type cli struct {
@@ -33,19 +32,11 @@ func (c *RunAllCmd) Run(cli *cli) error {
 	// stop channels
 	stopChannels := map[string]chan struct{}{}
 
-	// create clients
-	ur, err := app.InitUserRepo(cli.DataLocation)
-	if err != nil {
-		return err
-	}
-
-	n, err := app.InitNotifier()
-	if err != nil {
-		return err
-	}
-
 	// create services
-	userService := user.New(ur, n)
+	userService, err := app.InitUserService(cli.DataLocation)
+	if err != nil {
+		return err
+	}
 	stopChannels["user"] = make(chan struct{})
 
 	// create servers
