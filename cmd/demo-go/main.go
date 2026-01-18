@@ -7,7 +7,7 @@ import (
 	"syscall"
 
 	"github.com/alecthomas/kong"
-	"github.com/w-h-a/demo-go/internal/app"
+	demogo "github.com/w-h-a/demo-go/internal/app/demo_go"
 )
 
 type cli struct {
@@ -33,14 +33,14 @@ func (c *RunAllCmd) Run(cli *cli) error {
 	stopChannels := map[string]chan struct{}{}
 
 	// create services
-	userService, err := app.InitUserService(cli.DataLocation)
+	userService, err := demogo.InitUserService(cli.DataLocation)
 	if err != nil {
 		return err
 	}
 	stopChannels["user"] = make(chan struct{})
 
 	// create servers
-	httpSrv, err := app.InitHttpServer(cli.HttpServerAddr, userService)
+	httpSrv, err := demogo.InitHttpServer(cli.HttpServerAddr, userService)
 	if err != nil {
 		return err
 	}

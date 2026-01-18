@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/w-h-a/demo-go/api/user"
-	"github.com/w-h-a/demo-go/internal/app"
+	demogo "github.com/w-h-a/demo-go/internal/app/demo_go"
 	userservice "github.com/w-h-a/demo-go/internal/service/user"
 )
 
@@ -20,10 +20,10 @@ func TestUser_Integration(t *testing.T) {
 		return
 	}
 
-	ur, err := app.InitUserRepo("postgres://testuser:testpassword@localhost:5432/testdb?sslmode=disable")
+	ur, err := demogo.InitUserRepo("postgres://testuser:testpassword@localhost:5432/testdb?sslmode=disable")
 	require.NoError(t, err)
 
-	n, err := app.InitNotifier()
+	n, err := demogo.InitNotifier()
 	require.NoError(t, err)
 
 	userService := userservice.New(ur, n)
@@ -31,7 +31,7 @@ func TestUser_Integration(t *testing.T) {
 	require.NoError(t, err)
 	defer userService.Stop()
 
-	srv, err := app.InitHttpServer(":4000", userService)
+	srv, err := demogo.InitHttpServer(":4000", userService)
 	require.NoError(t, err)
 	err = srv.Start()
 	require.NoError(t, err)
