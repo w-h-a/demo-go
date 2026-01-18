@@ -16,7 +16,7 @@ integration-test:
 
 .PHONY: go-build
 go-build:
-	CGO_ENABLED=0 go build -o ./bin/demo-go ./
+	CGO_ENABLED=0 go build -o ./bin/demo-go ./cmd/demo-go
 
 .PHONY: go-install
 go-install:
